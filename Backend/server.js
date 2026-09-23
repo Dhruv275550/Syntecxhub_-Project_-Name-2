@@ -7,24 +7,26 @@ const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
+const PORT = process.env.PORT || 8080;
+
 connectDB();
 
-app.use(cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-}));
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+    })
+);
 
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
 
 app.get("/", (req, res) => {
-    res.send("User Management API is running");
+    res.status(200).send("User Management API is running");
 });
 
-const PORT = process.env.PORT || 8080;
-
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on port ${PORT}`);
 });
